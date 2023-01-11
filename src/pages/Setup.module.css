@@ -1,0 +1,45 @@
+:root {
+    --primary-color: rgb(25, 25, 57);
+    --secondary-color: rgb(57, 57, 78);
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.setup {
+    padding: 1rem;
+    background-color: var(--primary-color);
+    border: solid;
+    border-width: 0.15rem;
+    border-radius: 1rem;
+    width: 50vw;
+}
+
+.setup h2,
+h3 {
+    padding: 1rem;
+}
+
+.setup select {
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+}
+
+select option {
+    background-color: var(--secondary-color);
+}
+
+form div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+form div input {
+    width: 30vw !important;
+    margin: 1rem;
+}
