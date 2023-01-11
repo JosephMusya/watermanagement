@@ -1,0 +1,10 @@
+.tank {
+    border-style: solid;
+    border-color: var(--text-color);
+    border-width: 0.15rem;
+    height: 25rem;
+    width: 25rem;
+    rotate: 180deg;
+    border-radius: 0 0 1rem 1rem;
+    overflow: hidden;
+}
