@@ -33,13 +33,18 @@ select option {
     background-color: var(--secondary-color);
 }
 
-form div {
+.form div {
+    padding: 0.5rem;
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-form div input {
+.form div .submit {
     width: 30vw !important;
     margin: 1rem;
+}
+
+.form div input {
+    width: 30vw;
 }

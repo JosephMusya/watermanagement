@@ -1,5 +1,8 @@
 import styles from './TankStyle.module.css';
 import {Link} from 'react-router-dom'
+import Login from './Login';
+
+
 function MainPage(){
     return (
         <div className={styles.mainPage}>
@@ -54,8 +57,7 @@ function MainPage(){
                     <Link to='/tank-setup' className='badge bg-danger btn fs-5 rounded-pill'>Setup</Link>
                 </div>                               
             </div>                         
-        </div>
-    
+        </div> 
     );
 }
 

@@ -4,17 +4,19 @@ import TankSetup from "./pages/Setup";
 import Alerts from "./pages/Alerts";
 import Profile from "./pages/Profile";
 import {Route, Routes} from 'react-router-dom';
+import Login from "./pages/Login";
 
-function App() {
+function App(){
   return (
     <div>
-      <Navbar/>    
+      <Navbar/>            
       <Routes>
-        <Route path='/' exact element={<MainPage/>}/>
+        <Route path='/' exact element={<MainPage/>}/>   
+        <Route path='/login' element={<Login/>}/>
         <Route path='/tank-setup' element={<TankSetup/>}/>
         <Route path='/alerts' element={<Alerts/>}/>
         <Route path='/user-profile' element={<Profile/>}/>
-      </Routes>      
+      </Routes>                                                                   
     </div>
   );
 }
