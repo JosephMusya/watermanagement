@@ -1,11 +1,12 @@
 import styles from './Login.module.css'
-import {useRef} from 'react';
-import {useState} from 'react';
+import {useState, useContext, useRef} from 'react';
 import {useNavigate} from 'react-router-dom';
-import MainPage from './MainPage';
+import {LoginContext} from '../providers/LoginProvider';
 
 function Login(){  
     const [loginStatus, setLoginStatus] = useState(true);
+    const [token, setToken] = useContext(LoginContext);
+    console.log('Token: ', token)
     const navigate = useNavigate()
 
     const userNameRef = useRef();
@@ -15,6 +16,7 @@ function Login(){
         console.log('User authorized');
         window.localStorage.setItem('token',auth)
         setLoginStatus(true);
+        setToken(auth)
         navigate('/')
     }
 
@@ -38,7 +40,7 @@ function Login(){
                 }
             )
             
-            if (res.status == 200){
+            if (res.status === 200){
                 return await res.text();
             }            
         }

@@ -1,10 +1,13 @@
 import styles from './TankStyle.module.css';
 import {Link} from 'react-router-dom'
+import {LoginContext} from '../providers/LoginProvider';
+import {useContext} from 'react';
 import Login from './Login';
 
-
 function MainPage(){
+    const [token, ] = useContext(LoginContext);
     return (
+        token ?
         <div className={styles.mainPage}>
             <div className={styles.tankElement}>
                 <div>
@@ -57,7 +60,8 @@ function MainPage(){
                     <Link to='/tank-setup' className='badge bg-danger btn fs-5 rounded-pill'>Setup</Link>
                 </div>                               
             </div>                         
-        </div> 
+        </div>:
+        <Login/>
     );
 }
 
