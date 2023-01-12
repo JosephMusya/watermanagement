@@ -5,19 +5,22 @@ import Alerts from "./pages/Alerts";
 import Profile from "./pages/Profile";
 import {Route, Routes} from 'react-router-dom';
 import Login from "./pages/Login";
+import {LoginProvider} from './providers/LoginProvider';
 
 function App(){
   return (
-    <div>
-      <Navbar/>            
-      <Routes>
-        <Route path='/' exact element={<MainPage/>}/>   
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/tank-setup' element={<TankSetup/>}/>
-        <Route path='/alerts' element={<Alerts/>}/>
-        <Route path='/user-profile' element={<Profile/>}/>
-      </Routes>                                                                   
-    </div>
+      <LoginProvider>
+        <div>
+          <Navbar/>            
+          <Routes>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/' exact element={<MainPage/>}/>   
+            <Route path='/tank-setup' element={<TankSetup/>}/>
+            <Route path='/alerts' element={<Alerts/>}/>
+            <Route path='/user-profile' element={<Profile/>}/>
+          </Routes> 
+        </div>
+      </LoginProvider>                                                                        
   );
 }
 
