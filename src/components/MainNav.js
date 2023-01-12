@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom'
 import Logo from './media/logo.webp'
 import {useContext} from 'react';
 import {LoginContext} from '../providers/LoginProvider';
+import {FaHome, FaBell,FaMale,} from 'react-icons/fa';
 
 function Navbar(){    
     const [loginStatus, setLoginStatus] = useContext(LoginContext)
@@ -14,10 +15,11 @@ function Navbar(){
     function displayNavItems(){
         return(
             <div className="nav-elements"> 
-                <Link to='/'>Home</Link>
-                <Link to='/user-profile'>Profile</Link>
-                <Link to='/alerts'>Alerts</Link>
-                <Link onClick={logoutHandler}>Logout</Link>               
+                
+                <Link className='icon' to='/'><FaHome/></Link>
+                <Link className='icon' to='/user-profile'><FaMale/></Link>
+                <Link className='icon' to='/alerts'><FaBell/></Link>
+                <Link onClick={logoutHandler} to='/login'>Logout</Link>               
             </div>            
         )
     }
@@ -31,7 +33,7 @@ function Navbar(){
             </div>            
                 {
                     loginStatus ? displayNavItems():
-                    <div></div>                    
+                    <div>Kindly Login!</div>                    
                 }
             
         </nav>
