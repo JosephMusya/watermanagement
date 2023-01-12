@@ -28,7 +28,12 @@ nav div strong {
 
 nav .nav-elements {
     display: flex;
+    align-items: center;
     gap: 2rem;
+}
+
+nav .nav-elements .icon {
+    font-size: 1.5rem;
 }
 
 a {
