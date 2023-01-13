@@ -1,66 +1,41 @@
-import styles from './TankStyle.module.css';
-import {Link} from 'react-router-dom'
 import {LoginContext} from '../providers/LoginProvider';
 import {useContext} from 'react';
 import Login from './Login';
+import Tank from './Tank';
 
 function MainPage(){
     const [token, ] = useContext(LoginContext);
+    var reconnectTimeout = 2000;
+    var mqtt = new window['Paho'].MQTT.Client("api.waziup.io", Number(443), "/websocket", "clientjs");
+    // window['mqtt'].onMessageArrived = onMessageArrived;
+    var options = {
+        useSSL: true,
+        timeout: 3,
+        onSuccess: onConnect,
+        onFailure: onFailure};
+
+    mqtt.connect(options)     
+    mqtt.onMessageArrived = onMessageArrived;
+
+
+    function onConnect() {
+        console.log("Connected to MQTT");
+        mqtt.subscribe("devices/MyDevice/sensors/TC1/value");
+      }
+
+    function onFailure(message) {
+        console.log("Failed", message);
+        setTimeout(window['MQTTconnect'], reconnectTimeout);
+    }
+
+    function onMessageArrived(msg) {
+        console.log(msg.payloadString);
+            // "New value: " + JSON.parse(msg.payloadString).value + " °C";
+    }
+    
     return (
         token ?
-        <div className={styles.mainPage}>
-            <div className={styles.tankElement}>
-                <div>
-                    <h2>Rooftop Tank</h2>
-                    <div id="tank" className={styles.tank}>
-                    <div id="water-level" className={styles.waterlevel}></div>
-                        <div className={styles.wave}>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                        </div>
-                    </div>
-                    <div className={styles.controls}>
-                        <strong>Quantity:&nbsp;<span>300 Litres</span></strong>
-                        <button className="btn text-white bg-primary">Close</button>
-                        <button className='btn text-white bg-danger'>Open</button>                        
-                    </div> 
-                    <Link to='/tank-setup' className='badge bg-danger btn fs-5 rounded-pill'>Setup</Link>
-                </div>                               
-            </div>  
-            <hr /> 
-            <div className={styles.tankElement}>
-                <div>
-                    <h2>Farm Tank</h2>
-                    <div id="tank" className={styles.tank}>
-                    <div id="water-level" className={styles.waterlevel}></div>
-                        <div className={styles.wave}>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                            <div className={styles.box}></div>
-                        </div>
-                    </div>
-                    <div className={styles.controls}>
-                        <strong>Quantity:&nbsp;<span>1000 Litres</span></strong>
-                        <button className="btn text-white bg-primary">Close</button>
-                        <button className='btn text-white bg-danger'>Open</button>                        
-                    </div> 
-                    <Link to='/tank-setup' className='badge bg-danger btn fs-5 rounded-pill'>Setup</Link>
-                </div>                               
-            </div>                         
-        </div>:
+        <Tank/>:
         <Login/>
     );
 }
