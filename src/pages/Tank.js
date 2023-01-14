@@ -1,7 +1,8 @@
 import styles from './TankStyle.module.css';
 import {Link} from 'react-router-dom';
 
-function Tank(){
+function Tank(props){  
+    console.log(props.devices)  
     return (
         <div className={styles.mainPage}>
             <div className={styles.tankElement}>
