@@ -68,7 +68,7 @@ function MainPage(){
     return (
         // token?<Tank devices={(getDevices(token))}/>:<Login/>
         token?(
-            loading?<div>Loading...</div>:<Tank devices = {loadedData}/>
+            loading?<div>Loading...</div>:<Tank devices={loadedData}/>
         ):<Login/>
       
     );
