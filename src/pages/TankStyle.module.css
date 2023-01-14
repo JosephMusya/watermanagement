@@ -15,7 +15,8 @@ hr {
 
 .tank .waterlevel {
     background-color: #35b3e7;
-    animation: fill 60s infinite linear;
+    background-color: #35b3e7;
+    height: 10rem;
 }
 
 .tank .wave {
@@ -24,7 +25,7 @@ hr {
 
 .wave .box {
     background-color: var(--secondary-color);
-    width: 4rem;
+    width: 8rem;
     height: 4rem;
     animation: wave 2.8s infinite linear;
     border-radius: 45%;
@@ -45,11 +46,9 @@ hr {
 
 @keyframes fill {
     from {
-        background-color: #35b3e7;
         height: 0rem;
     }
     to {
-        background-color: #35b3e7;
         height: 25rem;
     }
 }
