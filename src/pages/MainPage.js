@@ -10,14 +10,12 @@ function MainPage(){
 
     useEffect(()=>{
         async function getDevices(token){
-        console.log('---------------------')
         const res = await fetch(
             'https://api.waziup.io/api/v2/devices?q=owner==muciajoe@gmail.com',           
         );
         const data = await res.json();
         setLoading(false)
         setLoadedData(data)
-        console.log(data)
         data.splice(0,1);
         
         return data        
