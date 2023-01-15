@@ -1,11 +1,49 @@
 import styles from './TankStyle.module.css';
 import {Link} from 'react-router-dom';
+import {useEffect} from 'react';
 
 function Tank(props){  
-    console.log(props.devices)    
+    // console.log(props.devices)
+    function mqttSubscription(devices){        
+        var reconnectTimeout = 2000;
+        var mqtt = new window['Paho'].MQTT.Client("api.waziup.io", Number(443), "/websocket", "clientjs");
+        var options = {
+            useSSL: true,
+            timeout: 5,
+            onSuccess: onConnect,
+            onFailure: onFailure};
+
+        mqtt.connect(options)     
+        mqtt.onMessageArrived = onMessageArrived;
+
+        
+        function onConnect() {
+            console.log("Connected!")
+            devices.map((device)=>{
+                (device.sensors).map(sensors=>{
+                    console.log(sensors.name)
+                })
+            }) 
+            mqtt.subscribe("devices/MyDevice/sensors/TC1/value");
+            console.log("Subscribed to MQTT");
+          }
+
+        function onFailure(message) {
+            console.log("Failed", message);
+            setTimeout(window['MQTTconnect'], reconnectTimeout);
+        }
+
+        function onMessageArrived(msg) {
+            console.log(msg.payloadString);
+        }
+
+    }   
+        
     return (        
         <div className={styles.mainPage}>
+            {useEffect(()=>{mqttSubscription(props.devices)},[])}
             {
+                
                 props.devices.map((device)=>{
                     return <div className={styles.tankElement} key={device.id}>
                         <div>
