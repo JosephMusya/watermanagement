@@ -1,0 +1,27 @@
+.main {
+    display: flex;
+    width: 100vw;
+    height: 90vh;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.7rem;
+}
+
+.loading {
+    animation: loading 1s infinite ease-in-out;
+    border-radius: 3rem;
+}
+
+@keyframes loading {
+    from {
+        background-color: white;
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+    to {
+        background-color: pink;
+        width: 3rem;
+        height: 3rem;
+    }
+}
