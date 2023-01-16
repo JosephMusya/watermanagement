@@ -1,10 +1,11 @@
 import styles from './TankStyle.module.css';
 import {Link} from 'react-router-dom';
-import {useEffect} from 'react';
+import {useEffect,useState} from 'react';
 
 function Tank(props){  
-    // console.log(props.devices)
-    function mqttSubscription(devices){        
+    const [currentValue,setCurrentValue] = useState(0)    
+    function mqttSubscription(devices){   
+        const actualTankHeight = 50     
         var reconnectTimeout = 2000;
         var mqtt = new window['Paho'].MQTT.Client("api.waziup.io", Number(443), "/websocket", "clientjs");
         var options = {
@@ -15,17 +16,29 @@ function Tank(props){
 
         mqtt.connect(options)     
         mqtt.onMessageArrived = onMessageArrived;
-
         
+        async function getSensorData(url) {
+            const res = await fetch(url);
+            const data = await res.json();
+            console.log(data);
+        }
+
         function onConnect() {
             console.log("Connected!")
             devices.map((device)=>{
-                (device.sensors).map(sensors=>{
-                    console.log(sensors.name)
+                // console.log(device)
+                const deviceId = device.id
+                console.log(deviceId)
+                return (device.sensors).map(sensor=>{
+                    if(sensor.name==='analogInput 3'){
+                        console.log("Sensor found")                        
+                        const subUrl = "devices/"+deviceId+"/sensors/"+sensor.id+"/value"                                                                        
+                        mqtt.subscribe(subUrl)
+                        console.log("Subscribed to ", sensor.name)
+                        getSensorData('https://api.waziup.io/api/v2/'+subUrl+'s')                       
+                    }
                 })
-            }) 
-            mqtt.subscribe("devices/MyDevice/sensors/TC1/value");
-            console.log("Subscribed to MQTT");
+            })             
           }
 
         function onFailure(message) {
@@ -33,8 +46,21 @@ function Tank(props){
             setTimeout(window['MQTTconnect'], reconnectTimeout);
         }
 
+        function setTank(val){
+            const ratio = (val/actualTankHeight)
+            const tankCapacity = 1000
+            const tankHeight = document.getElementById('tank').offsetHeight
+            const prevHeight = document.getElementById("water-level").offsetHeight
+            const currentHeight = tankHeight*ratio            
+            document.getElementById("water-level").style.height = currentHeight+'px'
+            setCurrentValue(ratio*tankCapacity)
+            console.log("Previous %d to %d",prevHeight,currentHeight)
+        }
+
         function onMessageArrived(msg) {
-            console.log(msg.payloadString);
+            const value = (JSON.parse(msg.payloadString)).value;
+            console.log(value)            
+            setTank(value)                      
         }
 
     }   
@@ -63,7 +89,7 @@ function Tank(props){
                                 </div>
                             </div>
                             <div className={styles.controls}>
-                                <strong>Quantity:&nbsp;<span>300 Litres</span></strong>
+                                <strong>Quantity:&nbsp;<span>{currentValue.toFixed(2)} Litres</span></strong>
                                 <button className="btn text-white bg-primary">Close</button>
                                 <button className='btn text-white bg-danger'>Open</button>                        
                             </div> 
