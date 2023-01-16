@@ -2,6 +2,7 @@ import {LoginContext} from '../providers/LoginProvider';
 import {useState,useContext,useEffect} from 'react';
 import Login from './Login';
 import Tank from './Tank';
+import Loading from '../components/Loading';
 
 function MainPage(){
     const [token, ] = useContext(LoginContext); 
@@ -27,7 +28,7 @@ function MainPage(){
     
     return (
         token?(
-            loading?<div>Loading...</div>:<Tank devices={loadedData}/>
+            loading?<Loading/>:<Tank devices={loadedData}/>
         ):<Login/>
       
     );
