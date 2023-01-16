@@ -16,7 +16,7 @@ hr {
 .tank .waterlevel {
     background-color: #35b3e7;
     background-color: #35b3e7;
-    height: 10rem;
+    /* height: 10rem; */
 }
 
 .tank .wave {
