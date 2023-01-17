@@ -49,3 +49,9 @@ nav .logo img {
 nav .logo {
     width: 3rem;
 }
+
+.icon:hover,
+.logout:hover {
+    transform: scaleX(1.3) scaleY(1.3);
+    transition: 0.7s;
+}
