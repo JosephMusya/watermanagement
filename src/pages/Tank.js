@@ -20,29 +20,26 @@ function Tank(props){
         async function getSensorData(url) {
             const res = await fetch(url);
             const data = await res.json();
-            console.log(data);
+            setTank(data.value['value']);
         }
 
         function onConnect() {
             console.log("Connected!")
             devices.map((device)=>{
-                // console.log(device)
                 const deviceId = device.id
-                console.log(deviceId)
                 return (device.sensors).map(sensor=>{
                     if(sensor.name==='analogInput 3'){
-                        console.log("Sensor found")                        
-                        const subUrl = "devices/"+deviceId+"/sensors/"+sensor.id+"/value"                                                                        
-                        mqtt.subscribe(subUrl)
+                        const subUrl = "devices/"+deviceId+"/sensors/"+sensor.id                                                                      
+                        mqtt.subscribe(subUrl+"/value")
                         console.log("Subscribed to ", sensor.name)
-                        getSensorData('https://api.waziup.io/api/v2/'+subUrl+'s')                       
+                        getSensorData('https://api.waziup.io/api/v2/'+subUrl)                       
                     }
                 })
             })             
           }
 
         function onFailure(message) {
-            console.log("Failed", message);
+            console.log("Failed: ", message);
             setTimeout(window['MQTTconnect'], reconnectTimeout);
         }
 
@@ -54,12 +51,11 @@ function Tank(props){
             const currentHeight = tankHeight*ratio            
             document.getElementById("water-level").style.height = currentHeight+'px'
             setCurrentValue(ratio*tankCapacity)
-            console.log("Previous %d to %d",prevHeight,currentHeight)
         }
 
         function onMessageArrived(msg) {
             const value = (JSON.parse(msg.payloadString)).value;
-            console.log(value)            
+            console.log("Received ",value)            
             setTank(value)                      
         }
 
