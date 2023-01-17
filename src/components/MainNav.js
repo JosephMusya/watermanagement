@@ -16,10 +16,10 @@ function Navbar(){
         return(
             <div className="nav-elements"> 
                 
-                <Link className='icon' to='/'><FaHome/></Link>
-                <Link className='icon' to='/user-profile'><FaMale/></Link>
-                <Link className='icon' to='/alerts'><FaBell/></Link>
-                <Link onClick={logoutHandler} to='/login'>Logout</Link>               
+                <Link className='icon home' to='/'><FaHome/></Link>
+                <Link className='icon profile' to='/user-profile'><FaMale/></Link>
+                <Link className='icon notification' to='/alerts'><FaBell/></Link>
+                <Link className='logout' onClick={logoutHandler} to='/login'>Logout</Link>               
             </div>            
         )
     }
