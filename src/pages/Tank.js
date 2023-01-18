@@ -20,6 +20,7 @@ function Tank(props){
         async function getSensorData(url) {
             const res = await fetch(url);
             const data = await res.json();
+            console.log(data.value['value'])
             setTank(data.value['value']);
         }
 
@@ -49,7 +50,9 @@ function Tank(props){
             const tankHeight = document.getElementById('tank').offsetHeight
             const prevHeight = document.getElementById("water-level").offsetHeight
             const currentHeight = tankHeight*ratio            
-            document.getElementById("water-level").style.height = currentHeight+'px'
+            for (let i=0;i<=currentHeight;i++){
+                document.getElementById("water-level").style.height = i+'px'
+            }   
             setCurrentValue(ratio*tankCapacity)
         }
 
@@ -90,11 +93,10 @@ function Tank(props){
                                 <button className='btn text-white bg-danger'>Open</button>                        
                             </div> 
                             <Link to='/tank-setup' className='badge bg-danger btn fs-5 rounded-pill'>Setup</Link>
-                        </div>                               
+                        </div>   
                     </div> 
                 })
             }             
-            <hr />                                      
         </div>
     );
 }
