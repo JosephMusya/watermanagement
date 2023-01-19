@@ -1,10 +1,45 @@
 import styles from './TankStyle.module.css';
 import {Link} from 'react-router-dom';
-import {useEffect,useState} from 'react';
+import {useEffect,useState,useRef} from 'react';
 
 function Tank(props){  
     const [currentValue, setCurrentValue] = useState(0) 
     const [switchState, setSwitchState] = useState(false)
+
+    const switchRef = useRef()
+    
+    function switchHandler(event){
+        return (props.devices).map(device=>{
+            const devId = device.id
+            return (device.actuators).map(act=>{
+                const actId = act.id 
+                const url = 'https://api.waziup.io/api/v2/devices/'+devId+'/actuators'
+                const value = Boolean(event.target.value)
+
+                fetch(
+                    url,
+                    {
+                        method: 'POST',   
+                        headers: new Headers({
+                            'Content-Type':'application/json;charset=utf-8',
+                            'Authorization':'Bearer '+props.token,
+                        }),
+                        body: JSON.stringify({
+                            'value':value,
+                            'id':actId
+                        })                    
+                    }                                
+                ).then((data)=>{
+                    console.log(data)
+                })
+
+            })
+            
+                       
+        })
+        
+    }
+
     function mqttSubscription(devices){   
         const actualTankHeight = 100    //cm 
         var reconnectTimeout = 2000;
@@ -21,6 +56,8 @@ function Tank(props){
         async function getData(url,type) {
             const res = await fetch(url);
             const data = await res.json();
+
+            console.log(type)
             
             if (type==='pump'){
                 console.log("Pump initial State: ",data.value)
@@ -48,7 +85,7 @@ function Tank(props){
                         const sensorUrl =baseUrl + "/sensors/"+sensor.id                                                                      
                         mqtt.subscribe(baseUrl+"/#")
                         console.log("Subscribed to tank updates")
-                        getData('https://api.waziup.io/api/v2/'+sensorUrl,sensor.name)                       
+                        getData('https://api.waziup.io/api/v2/'+sensorUrl,sensor.name)
                     }
                 })
             })        
@@ -106,8 +143,8 @@ function Tank(props){
                             <div className={styles.controls}>
                                 <strong>Quantity:&nbsp;<span>{currentValue.toFixed(2)} Litres</span></strong>
                                 {
-                                    switchState ? <button className="btn text-white bg-primary">Close Pump</button>:
-                                    <button className='btn text-white bg-primary'>Open Pump</button> 
+                                    switchState ? <button className="btn text-white bg-primary" ref={switchRef} value={false} onClick={switchHandler} >Close Pump</button>:
+                                    <button className='btn text-white bg-primary' ref={switchRef} value={true} onClick={switchHandler} >Open Pump</button> 
                                 }
                                 
                                                        
