@@ -3,7 +3,8 @@ import {Link} from 'react-router-dom';
 import {useEffect,useState} from 'react';
 
 function Tank(props){  
-    const [currentValue,setCurrentValue] = useState(0)    
+    const [currentValue, setCurrentValue] = useState(0) 
+    const [switchState, setSwitchState] = useState(false)
     function mqttSubscription(devices){   
         const actualTankHeight = 100    //cm 
         var reconnectTimeout = 2000;
@@ -17,28 +18,41 @@ function Tank(props){
         mqtt.connect(options)     
         mqtt.onMessageArrived = onMessageArrived;
         
-        async function getSensorData(url) {
+        async function getData(url,type) {
             const res = await fetch(url);
             const data = await res.json();
-            console.log(data.value['value'])
-            setTank(data.value['value']);
+            
+            if (type==='pump'){
+                console.log("Pump initial State: ",data.value)
+                setSwitchState(data.value)
+            }
+
+            else if (type='USS'){
+                console.log("Water Level initial level: %d cm",data.value['value'])
+                setTank(data.value['value']);
+            }            
         }
 
         function onConnect() {
-            console.log("Connected!")
-            devices.map((device)=>{
+            console.log("Connected!")            
+            devices.map((device)=>{                
                 const deviceId = device.id
-                return (device.sensors).map(sensor=>{
-                    console.log(sensor)
+                const baseUrl = "devices/"+deviceId
+                device.actuators.map(actuator=>{
+                    const pumpUrl = baseUrl + "/actuators/"+actuator.id
+                    getData('https://api.waziup.io/api/v2/'+pumpUrl,actuator.name)
+                })
+                device.sensors.map(sensor=>{
+                    //Filter the device you need updates from
                     if(sensor.sensor_kind==='WaterLevel'){
-                        const subUrl = "devices/"+deviceId+"/sensors/"+sensor.id                                                                      
-                        mqtt.subscribe(subUrl+"/value")
-                        console.log("Subscribed to ", sensor.name)
-                        getSensorData('https://api.waziup.io/api/v2/'+subUrl)                       
+                        const sensorUrl =baseUrl + "/sensors/"+sensor.id                                                                      
+                        mqtt.subscribe(baseUrl+"/#")
+                        console.log("Subscribed to tank updates")
+                        getData('https://api.waziup.io/api/v2/'+sensorUrl,sensor.name)                       
                     }
                 })
-            })             
-          }
+            })        
+        }
 
         function onFailure(message) {
             console.log("Failed: ", message);
@@ -58,11 +72,12 @@ function Tank(props){
         }
 
         function onMessageArrived(msg) {
-            const value = (JSON.parse(msg.payloadString)).value;
-            console.log("Received ",value)            
-            setTank(value)                      
-        }
+            const val = (JSON.parse(msg.payloadString).value)
 
+            val ?  setTank(val) : setSwitchState(JSON.parse(msg.payloadString))
+  
+            console.log("Received :> ",JSON.parse(msg.payloadString))                                
+        }
     }   
         
     return (        
@@ -90,8 +105,12 @@ function Tank(props){
                             </div>
                             <div className={styles.controls}>
                                 <strong>Quantity:&nbsp;<span>{currentValue.toFixed(2)} Litres</span></strong>
-                                <button className="btn text-white bg-primary">Close</button>
-                                <button className='btn text-white bg-danger'>Open</button>                        
+                                {
+                                    switchState ? <button className="btn text-white bg-primary">Close Pump</button>:
+                                    <button className='btn text-white bg-primary'>Open Pump</button> 
+                                }
+                                
+                                                       
                             </div> 
                             <Link to='/tank-setup' className='badge bg-danger btn fs-5 rounded-pill'>Setup</Link>
                         </div>   
