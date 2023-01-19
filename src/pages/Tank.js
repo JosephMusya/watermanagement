@@ -5,7 +5,7 @@ import {useEffect,useState} from 'react';
 function Tank(props){  
     const [currentValue,setCurrentValue] = useState(0)    
     function mqttSubscription(devices){   
-        const actualTankHeight = 50     
+        const actualTankHeight = 100    //cm 
         var reconnectTimeout = 2000;
         var mqtt = new window['Paho'].MQTT.Client("api.waziup.io", Number(443), "/websocket", "clientjs");
         var options = {
@@ -29,7 +29,8 @@ function Tank(props){
             devices.map((device)=>{
                 const deviceId = device.id
                 return (device.sensors).map(sensor=>{
-                    if(sensor.name==='analogInput 3'){
+                    console.log(sensor)
+                    if(sensor.sensor_kind==='WaterLevel'){
                         const subUrl = "devices/"+deviceId+"/sensors/"+sensor.id                                                                      
                         mqtt.subscribe(subUrl+"/value")
                         console.log("Subscribed to ", sensor.name)
@@ -95,8 +96,10 @@ function Tank(props){
                             <Link to='/tank-setup' className='badge bg-danger btn fs-5 rounded-pill'>Setup</Link>
                         </div>   
                     </div> 
-                })
-            }             
+                },
+                <br/>,
+                )
+            }
         </div>
     );
 }
