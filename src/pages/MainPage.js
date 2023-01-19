@@ -28,7 +28,7 @@ function MainPage(){
     
     return (
         token?(
-            loading?<Loading/>:<Tank devices={loadedData}/>
+            loading?<Loading/>:<Tank token = {token}devices={loadedData}/>
         ):<Login/>
       
     );
