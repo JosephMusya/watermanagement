@@ -41,7 +41,8 @@ function Tank(props){
     }
 
     function mqttSubscription(devices){   
-        const actualTankHeight = 100    //cm 
+        const actualTankHeight = 175    //cm
+        const tankCapacity = 1000 
         var reconnectTimeout = 2000;
         var mqtt = new window['Paho'].MQTT.Client("api.waziup.io", Number(443), "/websocket", "clientjs");
         var options = {
@@ -56,8 +57,6 @@ function Tank(props){
         async function getData(url,type) {
             const res = await fetch(url);
             const data = await res.json();
-
-            console.log(type)
             
             if (type==='pump'){
                 console.log("Pump initial State: ",data.value)
@@ -72,7 +71,7 @@ function Tank(props){
 
         function onConnect() {
             console.log("Connected!")            
-            devices.map((device)=>{                
+            return devices.map((device)=>{                
                 const deviceId = device.id
                 const baseUrl = "devices/"+deviceId
                 device.actuators.map(actuator=>{
@@ -97,8 +96,7 @@ function Tank(props){
         }
 
         function setTank(val){
-            const ratio = (val/actualTankHeight)
-            const tankCapacity = 1000
+            const ratio = (val/actualTankHeight)            
             const tankHeight = document.getElementById('tank').offsetHeight
             const prevHeight = document.getElementById("water-level").offsetHeight
             const currentHeight = tankHeight*ratio            
@@ -120,8 +118,7 @@ function Tank(props){
     return (        
         <div className={styles.mainPage}>
             {useEffect(()=>{mqttSubscription(props.devices)},[])}
-            {
-                
+            {                
                 props.devices.map((device)=>{
                     return <div className={styles.tankElement} key={device.id}>
                         <div>
