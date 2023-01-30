@@ -48,3 +48,12 @@ select option {
 .form div input {
     width: 30vw;
 }
+
+.submit button {
+    margin-top: 1rem;
+    background-color: #38384d;
+    text-align: center;
+    border: none;
+    padding: 0.7rem;
+    border-radius: 1rem;
+}
