@@ -5,6 +5,10 @@ import {useEffect,useState,useRef} from 'react';
 function Tank(props){  
     const [currentValue, setCurrentValue] = useState(0) 
     const [switchState, setSwitchState] = useState(false)
+    const minCapacity = window.localStorage.getItem('minLevel')
+    const lowLevel = window.localStorage.getItem('minAlarm')
+    const upperLevel = window.localStorage.getItem('maxAlarm')
+    const tankCapacity = window.localStorage.getItem('maxLevel')
 
     const switchRef = useRef()
     
@@ -41,8 +45,7 @@ function Tank(props){
     }
 
     function mqttSubscription(devices){   
-        const actualTankHeight = window.localStorage.getItem('height')    //cm
-        const tankCapacity = window.localStorage.getItem('maxLevel')
+        const actualTankHeight = window.localStorage.getItem('height')    //cm        
         var reconnectTimeout = 2000;
         var mqtt = new window['Paho'].MQTT.Client("api.waziup.io", Number(443), "/websocket", "clientjs");
         var options = {
@@ -98,12 +101,18 @@ function Tank(props){
         function setTank(val){
             const ratio = (val/actualTankHeight)            
             const tankHeight = document.getElementById('tank').offsetHeight
-            const prevHeight = document.getElementById("water-level").offsetHeight
             const currentHeight = tankHeight*ratio            
             for (let i=0;i<=currentHeight;i++){
                 document.getElementById("water-level").style.height = i+'px'
-            }   
-            setCurrentValue(ratio*tankCapacity)
+            }  
+            const currentCapacity = ratio*tankCapacity 
+            setCurrentValue(currentCapacity)
+            if (currentCapacity > upperLevel){
+                alert("Maximum water level reached!")
+            }
+            if (currentCapacity < lowLevel){
+                alert("Lowest water level reached!")
+            }
         }
 
         function onMessageArrived(msg) {
@@ -122,7 +131,7 @@ function Tank(props){
                 props.devices.map((device)=>{
                     return <div className={styles.tankElement} key={device.id}>
                         <div>
-                            <h2>{device.name}</h2>
+                            <h2>{device.name} - {tankCapacity} Litres </h2>
                             <div id="tank" className={styles.tank}>
                             <div id="water-level" className={styles.waterlevel}></div>
                                 <div className={styles.wave}>
