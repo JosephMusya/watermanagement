@@ -10,6 +10,12 @@ function TankSetup(){
     const minAlarmRef = useRef();
     const heightRef = useRef();
 
+    const minCapacity = window.localStorage.getItem('minLevel')
+    const lowLevel = window.localStorage.getItem('minAlarm')
+    const upperLevel = window.localStorage.getItem('maxAlarm')
+    const tankCapacity = window.localStorage.getItem('maxLevel')
+    const tankHeight = window.localStorage.getItem('height')
+
     const maxLevelHandler = (e) => {
         console.log("Max Level: ",e.target.value);
     }
@@ -47,30 +53,30 @@ function TankSetup(){
                 <h3>Capacity</h3>
                 <form className={styles.form}>
                     <div>
-                        <label forhtml="max-level">Max Level</label>
-                        <input className="form-control" ref={maxLevelRef} type="number" min="0" defaultValue={1000} onChange={maxLevelHandler}/>
+                        <label forhtml="max-level">Max Capacity</label>
+                        <input className="form-control" ref={maxLevelRef} type="number" min="0" defaultValue={tankCapacity} onChange={maxLevelHandler}/>
                         <label htmlFor="max-level">Lts</label>
                     </div>
                     <div>
-                        <label htmlFor="min-level">Min Level</label>
-                        <input className="form-control" ref={minLevelRef} type="number" min="0" defaultValue={0} onChange={minLevelHandler}/>
+                        <label htmlFor="min-level">Min Capcity</label>
+                        <input className="form-control" ref={minLevelRef} type="number" min="0" defaultValue={minCapacity} onChange={minLevelHandler}/>
                         <label htmlFor="max-level">Lts</label>
                     </div>
                     <div>
                         <label htmlFor="tankHeight">Tank Height</label>
-                        <input className="form-control" ref={heightRef} type="number" min="0" defaultValue={100}/>
-                        <label htmlFor="max-level">Lts</label>
+                        <input className="form-control" ref={heightRef} type="number" min="0" defaultValue={tankHeight}/>
+                        <label htmlFor="max-level">CM</label>
                     </div>
                 <hr/>
                 <h3>Alarms</h3>
                     <div>
-                        <label htmlFor="max-level">Max Level</label>
-                        <input className="form-control" ref={maxAlarmRef} type="number" min="0" defaultValue={1000} onChange={maxAlarmHandler}/>
+                        <label htmlFor="max-level">Max Capcity</label>
+                        <input className="form-control" ref={maxAlarmRef} type="number" min="0" defaultValue={upperLevel} onChange={maxAlarmHandler}/>
                         <label htmlFor="max-level">Lts</label>
                     </div>
                     <div>
-                        <label htmlFor="max-level">Min Level</label>
-                        <input className="form-control" ref={minAlarmRef} type="number" min="0" defaultValue={10} onChange={minAlarmHandler}/>
+                        <label htmlFor="max-level">Min Capacity</label>
+                        <input className="form-control" ref={minAlarmRef} type="number" min="0" defaultValue={lowLevel} onChange={minAlarmHandler}/>
                         <label htmlFor="max-level">Lts</label>
                     </div>
 
