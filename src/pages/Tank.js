@@ -41,8 +41,8 @@ function Tank(props){
     }
 
     function mqttSubscription(devices){   
-        const actualTankHeight = 175    //cm
-        const tankCapacity = 1000 
+        const actualTankHeight = window.localStorage.getItem('height')    //cm
+        const tankCapacity = window.localStorage.getItem('maxLevel')
         var reconnectTimeout = 2000;
         var mqtt = new window['Paho'].MQTT.Client("api.waziup.io", Number(443), "/websocket", "clientjs");
         var options = {
