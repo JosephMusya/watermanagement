@@ -12,9 +12,10 @@ function Login(){
     const userNameRef = useRef();
     const passwordRef = useRef();
     
-    function authorize(auth){
+    function authorize(auth,username){
         console.log('User authorized');
         window.localStorage.setItem('token',auth)
+        window.localStorage.setItem('username',username)
         setLoginStatus(true);
         setToken(auth)
         navigate('/')
@@ -45,7 +46,7 @@ function Login(){
             }            
         }
         authenticate(username,password).then((auth=>{
-        auth?authorize(auth):setLoginStatus(false)
+        auth?authorize(auth,username):setLoginStatus(false)
         })
     )
 
