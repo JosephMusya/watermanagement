@@ -10,9 +10,10 @@ function MainPage(){
     const [loadedData, setLoadedData]    = useState([])
 
     useEffect(()=>{
-        async function getDevices(token){
+        async function getDevices(){
+        const owner  = window.localStorage.getItem('username')
         const res = await fetch(
-            'https://api.waziup.io/api/v2/devices?q=owner==muciajoe@gmail.com',           
+            'https://api.waziup.io/api/v2/devices?q=owner=='+owner,           
         );
         const data = await res.json();
         setLoading(false)
@@ -22,7 +23,7 @@ function MainPage(){
         return data        
     }
 
-    getDevices(token)
+    getDevices()
 
     },[])        
     
