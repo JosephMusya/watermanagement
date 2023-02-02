@@ -1,7 +1,7 @@
 {
   "name": "watermanagement",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "homepage": "http://josephmusya.github.io/watermanagement",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
