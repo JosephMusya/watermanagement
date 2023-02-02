@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/watermanagement/static/css/main.d2c9f885.css",
+    "main.js": "/watermanagement/static/js/main.b4907f31.js",
+    "static/media/logo.webp": "/watermanagement/static/media/logo.259a9efd15abf4e5a2f9.webp",
+    "index.html": "/watermanagement/index.html",
+    "main.d2c9f885.css.map": "/watermanagement/static/css/main.d2c9f885.css.map",
+    "main.b4907f31.js.map": "/watermanagement/static/js/main.b4907f31.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d2c9f885.css",
+    "static/js/main.b4907f31.js"
+  ]
+}
