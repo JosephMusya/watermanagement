@@ -29,7 +29,10 @@ function MainPage(){
     
     return (
         token?(
-            loading?<Loading/>:<Tank token = {token}devices={loadedData}/>
+            loading?<Loading/>:
+                loadedData ?
+                <Tank token = {token}devices={loadedData}/>:
+                <div>You do not have devices yet</div>
         ):<Login/>
       
     );

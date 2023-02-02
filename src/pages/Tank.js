@@ -9,6 +9,7 @@ function Tank(props){
     const lowLevel = window.localStorage.getItem('minAlarm')
     const upperLevel = window.localStorage.getItem('maxAlarm')
     const tankCapacity = window.localStorage.getItem('maxLevel')
+    const actualTankHeight = window.localStorage.getItem('height')    //cm 
 
     const switchRef = useRef()
     
@@ -44,8 +45,7 @@ function Tank(props){
         
     }
 
-    function mqttSubscription(devices){   
-        const actualTankHeight = window.localStorage.getItem('height')    //cm        
+    function mqttSubscription(devices){                  
         var reconnectTimeout = 2000;
         var mqtt = new window['Paho'].MQTT.Client("api.waziup.io", Number(443), "/websocket", "clientjs");
         var options = {
@@ -89,6 +89,10 @@ function Tank(props){
                         console.log("Subscribed to tank updates")
                         getData('https://api.waziup.io/api/v2/'+sensorUrl,sensor.name)
                     }
+
+                    else{
+                        alert("You do not have tank setup on this gateway!")
+                    }
                 })
             })        
         }
@@ -123,10 +127,13 @@ function Tank(props){
             console.log("Received :> ",JSON.parse(msg.payloadString))                                
         }
     }   
+
+    useEffect(()=>{mqttSubscription(props.devices)},[])
         
-    return (        
+    return (   
+        actualTankHeight?            
         <div className={styles.mainPage}>
-            {useEffect(()=>{mqttSubscription(props.devices)},[])}
+            {}
             {                
                 props.devices.map((device)=>{
                     return <div className={styles.tankElement} key={device.id}>
@@ -162,6 +169,10 @@ function Tank(props){
                 <br/>,
                 )
             }
+        </div>:
+        <div>
+            Setup tank first &nbsp;
+            <Link to='/tank-setup' className='badge bg-danger btn fs-5 rounded-pill'>Setup</Link>
         </div>
     );
 }
