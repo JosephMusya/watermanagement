@@ -1,3 +1,3 @@
 # Waziup water management 
 
-Startup for Majiup frontend application based on REACT first release. 
+Startup for Majiup frontend application based on REACT initial release.
