@@ -2,7 +2,7 @@
 
 Majiup frontend application based on REACT initial release.
 
-##Installing dependencies
+## Installing dependencies
 ```
 npm i
 ```
