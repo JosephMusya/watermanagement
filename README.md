@@ -6,3 +6,6 @@ Majiup frontend application on REACT initial release.
 ```
 npm install
 ```
+```
+npm start
+```
