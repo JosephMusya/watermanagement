@@ -4,7 +4,7 @@ Majiup frontend application on REACT first release.
 
 ## Installing dependencies
 ```
-npm install
+npm i
 ```
 ```
 npm start
