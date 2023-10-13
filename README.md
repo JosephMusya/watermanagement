@@ -1,6 +1,6 @@
 # Majiup
 
-Majiup frontend application on REACT first release. 
+Majiup frontend application on REACT initial release.
 
 ## Installing dependencies
 ```
