@@ -1,6 +1,6 @@
 # Majiup
 
-Majiup frontend application
+Majiup frontend
 
 ## Installing dependencies
 ```
