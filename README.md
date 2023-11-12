@@ -2,7 +2,7 @@
 
 ## Installing dependencies
 ```
-npm i
+npm install
 ```
 ```
 npm start
