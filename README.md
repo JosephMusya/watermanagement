@@ -1,6 +1,6 @@
 # Majiup
 
-## Installing dependencies
+## Dependancy Installation 
 ```
 npm install
 ```
