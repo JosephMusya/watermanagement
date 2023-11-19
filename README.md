@@ -1,5 +1,5 @@
 # Majiup
-Water management
+Water management project 
 
 ## Dependancy Installation 
 ```
