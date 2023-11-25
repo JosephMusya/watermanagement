@@ -1,5 +1,5 @@
 # Majiup
-Water management project - Waziup
+Water management project - Waziup IoT 
 
 ## Dependancy Installation 
 ```
