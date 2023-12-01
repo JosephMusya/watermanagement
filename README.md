@@ -1,6 +1,5 @@
 # Majiup
-Water management project - Waziup IoT 
-
+Water management project - Waziup IoT
 ## Dependancy Installation 
 ```
 npm install
@@ -8,3 +7,4 @@ npm install
 ```
 npm start
 ```
+## Features
